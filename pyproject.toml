@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "ariadne-federation-multiple-keys"
+version = "0.1.0"
+description = "Example of federated graph with entity with multiple primary keys (User)"
+authors = ["kuchichan <pawel.kucharski@mirumee.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+ariadne = {git = "https://github.com/mirumee/ariadne.git", rev = "repeatable_key_directive"}
+uvicorn = "^0.13.4"
+
+[tool.poetry.dev-dependencies]
+black = "^21.4b0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

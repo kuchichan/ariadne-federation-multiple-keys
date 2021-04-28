@@ -1,0 +1,21 @@
+{
+  "name": "federation-demo-multiple-keys",
+  "main": "gateway.js",
+  "scripts": {
+    "start-gateway": "nodemon gateway.js",
+    "start-service-account": "nodemon services/account_service.py",
+    "start-service-review": "nodemon services/review_service.py",
+    "start-service-product": "nodemon services/product_service.py",
+    "start-service-splitpayment": "nodemon services/split_payment_service.py",
+    "start-services": "concurrently \"npm:start-service-*\""
+  },
+  "devDependencies": {
+    "concurrently": "latest",
+    "nodemon": "latest"
+  },
+  "dependencies": {
+    "@apollo/gateway": "latest",
+    "apollo-server": "latest",
+    "graphql": "latest"
+  }
+}
