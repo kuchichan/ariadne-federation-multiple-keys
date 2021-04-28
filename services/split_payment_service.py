@@ -46,7 +46,9 @@ def resolve_split_payment_participants(split_payment, *_):
 
 @user.field("splitPayments")
 def resolve_user_split_payments(representation, *_):
-    return list(filter(lambda p: representation["id"] in p["participantsIDs"], payments))
+    return list(
+        filter(lambda p: representation["id"] in p["participantsIDs"], payments)
+    )
 
 
 @query.field("firstPayment")

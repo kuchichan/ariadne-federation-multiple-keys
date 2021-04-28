@@ -1,36 +1,35 @@
 import uvicorn
-
 from ariadne.contrib.federation.schema import make_federated_schema
 from ariadne.contrib.federation.objects import FederatedObjectType
 from ariadne.objects import QueryType
 from ariadne.asgi import GraphQL
 
 reviews = [
-  {
-    "id": "1",
-    "authorUsername": "@ada",
-    "product": { "upc": "1" },
-    "body": "Love it!",
-  },
-  {
-    "id": "2",
-    "authorUsername": "@ada",
-    "product": { "upc": "2" },
-    "body": "Too expensive.",
-  },
-  {
-    "id": "3",
-    "authorUsername": "@ada",
-    "product": { "upc": "3" },
-    "body": "Could be better.",
-  },
-  {
-    "id": "4",
-    "authorUsername": "@complete",
-    "product": { "upc": "1" },
-    "body": "Prefer something else.",
-  },
-];
+    {
+        "id": "1",
+        "authorUsername": "@ada",
+        "product": {"upc": "1"},
+        "body": "Love it!",
+    },
+    {
+        "id": "2",
+        "authorUsername": "@ada",
+        "product": {"upc": "2"},
+        "body": "Too expensive.",
+    },
+    {
+        "id": "3",
+        "authorUsername": "@ada",
+        "product": {"upc": "3"},
+        "body": "Could be better.",
+    },
+    {
+        "id": "4",
+        "authorUsername": "@complete",
+        "product": {"upc": "1"},
+        "body": "Prefer something else.",
+    },
+]
 
 type_defs = """ 
 type Query {
@@ -61,6 +60,7 @@ user = FederatedObjectType("User")
 product = FederatedObjectType("Product")
 review = FederatedObjectType("Review")
 
+
 @review.reference_resolver
 def resolve_review_reference(*_, representation):
     return next(filter(lambda x: x["id"] == representation.get("id"), reviews))
@@ -70,13 +70,18 @@ def resolve_review_reference(*_, representation):
 def resolve_review_author(review, *_):
     return {"username": review["authorUsername"]}
 
+
 @review.field("product")
 def resolve_review_product(review, *_):
     return {"upc": review["product"]["upc"]}
 
+
 @user.field("reviews")
 def resolve_user_reviews(representation, *_):
-    return list(filter(lambda r: r["authorUsername"] == representation["username"], reviews))
+    return list(
+        filter(lambda r: r["authorUsername"] == representation["username"], reviews)
+    )
+
 
 @product.field("reviews")
 def resolve_product_reviews(representation, *_):
@@ -86,6 +91,7 @@ def resolve_product_reviews(representation, *_):
 @query.field("firstReview")
 def resolve_first_review(*_):
     return reviews[0]
+
 
 schema = make_federated_schema(type_defs, query, user, product, review)
 application = GraphQL(schema)

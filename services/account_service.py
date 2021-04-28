@@ -1,5 +1,4 @@
 import uvicorn
-
 from ariadne.contrib.federation.schema import make_federated_schema
 from ariadne.contrib.federation.objects import FederatedObjectType
 from ariadne.objects import QueryType
